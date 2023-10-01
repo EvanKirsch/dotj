@@ -44,13 +44,17 @@ public class DotjTest {
             assertTrue(cycleFinder.hasCycle(yesCycle));
 
             Map<String, List<String>> cycles = cycleFinder.getCycles(yesCycle);
-            assertEquals(2, cycles.size());
             assertTrue(cycles.containsKey("com.evan.kirsch"));
             assertTrue(cycles.containsKey("org.springframework.context"));
+            assertEquals(2, cycles.size());
 
-            //TODO - fix cycle pathfinding
-            assertEquals(1, cycles.get("com.evan.kirsch").size());
             assertTrue(cycles.get("com.evan.kirsch").contains("org.springframework.context"));
+            assertTrue(cycles.get("com.evan.kirsch").contains("com.evan.kirsch"));
+            assertEquals(2, cycles.get("com.evan.kirsch").size());
+
+            assertTrue(cycles.get("org.springframework.context").contains("org.springframework.context"));
+            assertTrue(cycles.get("org.springframework.context").contains("com.evan.kirsch"));
+            assertEquals(2, cycles.get("org.springframework.context").size());
 
         } catch (Exception e) {
             fail(e.getMessage());

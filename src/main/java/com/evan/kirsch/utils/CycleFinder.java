@@ -39,6 +39,7 @@ public class CycleFinder<T> {
       }
     }
 
+    stack.pop();
     source.setBeingVisited(false);
     source.setVisited(true);
     return null;
