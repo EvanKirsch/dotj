@@ -1,5 +1,6 @@
 package com.evan.kirsch;
 
+import com.evan.kirsch.utils.CycleFinder;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -7,6 +8,17 @@ import java.io.FileReader;
 public class Dotj {
 
     private static final String EDGE_SYMBOL = "->";
+
+    public static void main(String[] args) {
+        try {
+            DirectedGraph<String> dg = parseDotFile(args[0]);
+            CycleFinder<String> cycleFinder = new CycleFinder<>();
+            System.out.println(cycleFinder.getCycles(dg));
+        } catch (Exception e) {
+            System.out.println("Failed ");
+            e.printStackTrace();
+        }
+    }
 
     public static DirectedGraph<String> parseDotFile(String filePath) throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
