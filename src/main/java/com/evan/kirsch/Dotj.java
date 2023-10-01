@@ -8,7 +8,7 @@ public class Dotj {
 
     private static final String EDGE_SYMBOL = "->";
 
-    public static void main( String[] args ) {
+    public static void main(String[] args) {
         try {
             System.out.println(parseDotFile(args[0]));
         } catch (Exception e) {

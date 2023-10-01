@@ -1,9 +1,8 @@
 package com.evan.kirsch;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,23 +10,36 @@ import lombok.NoArgsConstructor;
 @Data
 public class DirectedGraph<T> {
 
-  private Map<T, List<T>> graph = new HashMap<>();
+  private List<Node<T>> nodes = new LinkedList<>();
   private String name;
 
   public void addNode(T n) {
-    graph.put(n, new LinkedList<T>());
+    nodes.add(new Node<>(n, new LinkedList<>(), false, false));
   }
 
   public void addEdge(Edge<T> edge) {
+    List<T> currentNodeLabels = nodes.stream().map(Node::getLabel).collect(Collectors.toList());
 
-    if(!graph.containsKey(edge.getSource())) {
+    if(!currentNodeLabels.contains(edge.getSource())) {
       addNode(edge.getSource());
     }
-    if(!graph.containsKey(edge.getDestination())) {
+    if(!currentNodeLabels.contains(edge.getDestination())) {
       addNode(edge.getDestination());
     }
 
-    graph.get(edge.getSource()).add(edge.getDestination());
+    Node<T> currentNode = getNode(edge.getSource());
+    currentNode.getAdjacentNodes().add(edge.getDestination());
+  }
+
+  public Node<T> getNode(T label) {
+    return nodes.stream()
+        .filter(elt -> elt.getLabel() == label)
+        .findFirst()
+        .get();
+  }
+
+  public void clearVisited() {
+    nodes.forEach(Node::clearVisited);
   }
 
 }
