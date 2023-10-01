@@ -8,15 +8,6 @@ public class Dotj {
 
     private static final String EDGE_SYMBOL = "->";
 
-    public static void main(String[] args) {
-        try {
-            System.out.println(parseDotFile(args[0]));
-        } catch (Exception e) {
-            System.out.println("Failed ");
-            e.printStackTrace();
-        }
-    }
-
     public static DirectedGraph<String> parseDotFile(String filePath) throws FileNotFoundException {
         BufferedReader reader = new BufferedReader(new FileReader(filePath));
         DirectedGraph<String> graph = new DirectedGraph<>();
@@ -53,6 +44,7 @@ public class Dotj {
         nName = nName.replace("\"", "");
         nName = nName.replace(";", "");
         nName = nName.replaceAll("\\(([^\\)]+)\\)", "");
+        nName = nName.trim();
         return nName;
     }
 

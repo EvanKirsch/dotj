@@ -10,7 +10,7 @@ import java.util.Stack;
 public class CycleFinder<T> {
 
   public boolean hasCycle(DirectedGraph<T> graph) {
-    return getCycles(graph).isEmpty();
+    return !getCycles(graph).isEmpty();
   }
 
   public Map<T, List<T>> getCycles(DirectedGraph<T> graph) {

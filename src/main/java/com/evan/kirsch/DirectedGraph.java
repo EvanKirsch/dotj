@@ -33,9 +33,9 @@ public class DirectedGraph<T> {
 
   public Node<T> getNode(T label) {
     return nodes.stream()
-        .filter(elt -> elt.getLabel() == label)
+        .filter(elt -> label.equals(elt.getLabel()))
         .findFirst()
-        .get();
+        .orElse(null);
   }
 
   public void clearVisited() {
