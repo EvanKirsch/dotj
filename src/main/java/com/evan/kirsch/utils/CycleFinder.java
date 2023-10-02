@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
+import java.util.stream.Collectors;
 
 public class CycleFinder<T> {
 
@@ -13,17 +14,17 @@ public class CycleFinder<T> {
     return !getCycles(graph).isEmpty();
   }
 
-  public Map<T, List<T>> getCycles(DirectedGraph<T> graph) {
+  public Map<String, List<T>> getCycles(DirectedGraph<T> graph) {
     Map<T, List<T>> cycles = new HashMap<>();
     List<Node<T>> nodes = graph.getNodes();
     for (Node<T> node : nodes) {
       List<T> cycle = getCycleRecursive(node, graph, new Stack<>());
-      if(cycle != null) {
+      if (cycle != null) {
         cycles.put(node.getLabel(), cycle);
       }
       graph.clearVisited();
     }
-    return cycles;
+    return filterCycles(cycles);
   }
 
   private List<T> getCycleRecursive(Node<T> source, DirectedGraph<T> graph, Stack<T> stack) {
@@ -44,5 +45,26 @@ public class CycleFinder<T> {
     source.setVisited(true);
     return null;
   }
+
+  private Map<String, List<T>> filterCycles(Map<T, List<T>> nodeCycles) {
+    Map<String, List<T>> namedCycles = new HashMap<>();
+    for (T node : nodeCycles.keySet()) {
+      List<T> curCycle = nodeCycles.get(node);
+
+      if (!containsGraph(curCycle, namedCycles)) {
+        String cycleName = curCycle.get(0).toString()
+            + " --> "
+            + curCycle.get(curCycle.size() - 1).toString();
+
+        namedCycles.put(cycleName, curCycle);
+      }
+    }
+    return namedCycles;
+  }
+
+  private boolean containsGraph(List<T> graph, Map<?, List<T>> graphs) {
+    return graphs.values().stream()
+        .filter(elt -> elt.containsAll(graph) && elt.size() == graph.size()).count() > 0;
+    }
 
 }
