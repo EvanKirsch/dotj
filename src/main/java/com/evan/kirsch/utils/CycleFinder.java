@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
-import java.util.stream.Collectors;
 
 public class CycleFinder<T> {
 
@@ -64,7 +63,7 @@ public class CycleFinder<T> {
 
   private boolean containsGraph(List<T> graph, Map<?, List<T>> graphs) {
     return graphs.values().stream()
-        .filter(elt -> elt.containsAll(graph) && elt.size() == graph.size()).count() > 0;
+        .anyMatch(elt -> elt.containsAll(graph) && elt.size() == graph.size());
     }
 
 }
