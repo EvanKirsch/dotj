@@ -103,7 +103,7 @@
     <repository>
       <id>github</id>
       <name>GitHub EvanKirsch Apache Maven Packages</name>
-      <url>https://maven.pkg.github.com/EvanKirsch/Dotj</url>
+      <url>https://maven.pkg.github.com/EvanKirsch/dotj</url>
     </repository>
   </distributionManagement>
 
